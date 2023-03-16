@@ -114,6 +114,13 @@ http://localhost:8080/
 <table>
 <tr>
     <td align="center">
+        <a href="https://github.com/TUARAN">
+            <img src="https://avatars.githubusercontent.com/u/25968749?v=4" width="100;" alt="TUARAN"/>
+            <br />
+            <sub><b>TUARAN</b></sub>
+        </a>
+    </td>
+    <td align="center">
         <a href="https://github.com/tea-blog">
             <img src="https://avatars.githubusercontent.com/u/68322136?v=4" width="100;" alt="tea-blog"/>
             <br />
