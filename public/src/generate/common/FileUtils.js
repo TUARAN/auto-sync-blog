@@ -1,13 +1,6 @@
 const fs = require('fs'); // 文件操作
 const path = require("path"); // path 实现创建多层目录
 const https = require('https'); // 请求
-// const request = require("request");
-const {
-    YYMM_TEMPLATE_PATH,
-    YY_TEMPLATE_PATH,
-    ALL_TEMPLATE_PATH,
-} = require("../base/base-data"); // 静态变量
-
 // 递归创建参考代码来源地址：https://blog.csdn.net/liruiqing520/article/details/107262653
 // 递归创建目录 异步方法  
 function mkdirs(dirname, callback) {
@@ -35,70 +28,20 @@ function mkdirsSync(dirname) {
     }
 }
 
-// 更新年月的文档（YYYYMM）
-function updateYYMM(startyymm, addData, dirPath) { // 更新文档
-    var isMkdir = mkdirsSync(dirPath);
-    if (!isMkdir) {
-        console.log('新建文件夹有误！');
-        return;
-    }
-    // 判断该文档是否存在
-    console.log(dirPath)
-    const YY = startyymm.substring(0, 4);
-    const MM = startyymm.substring(4);
-    const YY_MM = YY + "-" + MM;
-    updateFile(YYMM_TEMPLATE_PATH, dirPath, addData, YY, MM, YY_MM, startyymm);
-}
-// 更新年的文档（YYYY）
-function updateYY(startyymm, addData, dirPath) { // 更新文档
-    var isMkdir = mkdirsSync(dirPath);
-    if (!isMkdir) {
-        console.log('新建文件夹有误！');
-        return;
-    }
-    // 判断该文档是否存在
-    // console.log(dirPath)
-    const YY = startyymm.substring(0, 4);
-    const MM = startyymm.substring(4);
-    const YY_MM = YY + "-" + MM;
-    updateFile(YY_TEMPLATE_PATH, dirPath, addData, YY, MM, YY_MM, YY);
-}
-// 更新总的文档（all.md）
-function updateAll(startyymm, addData, dirPath) { // 更新文档
-    var isMkdir = mkdirsSync(dirPath);
-    if (!isMkdir) {
-        console.log('新建文件夹有误！');
-        return;
-    }
-    // 判断该文档是否存在
-    // console.log(dirPath)
-    const YY = startyymm.substring(0, 4);
-    const MM = startyymm.substring(4);
-    const YY_MM = YY + "-" + MM;
-    const fileName = "all";
-    updateFile(ALL_TEMPLATE_PATH, dirPath, addData, YY, MM, YY_MM, fileName);
+// 公共部分，更新文件
+function updateArticleFile(filePath, finalData, addData, startyymm, countMap) {
+    console.log("updateArticleFile-filePath：", filePath);
+    var finalDataMap = isUpdateYYOrYYMM(startyymm, finalData, countMap);
+    var {
+        content,
+        optPosition
+    } = finalDataMap;
+    finalData = updateOptPosition(optPosition, addData, content);
+    updateFile(filePath, finalData);
 }
 
-// 公共部分，更新文件
-function updateFile(templatePath, dirPath, addData, YY, MM, titleName, fileName) {
-    var filePath = dirPath + fileName + ".md";
-    var finalData = new String();
-    console.log(filePath)
+function updateFile(filePath, finalData) {
     try {
-        if (fs.existsSync(filePath)) {
-            // 文档存在，读取里面内容
-            finalData = fs.readFileSync(filePath, 'utf-8');
-        } else {
-            // 文档不存在，读取模板文件
-            finalData = fs.readFileSync(templatePath, 'utf-8');
-            finalData = finalData.replaceAll("&{YY}&", YY).replaceAll("&{MM}&", MM);
-        }
-        var finalDataMap = isUpdateYYOrYYMM("## " + titleName, finalData);
-        var {
-            content,
-            optPosition
-        } = finalDataMap;
-        finalData = updateOptPosition(optPosition, addData, content);
         fs.writeFileSync(filePath, finalData, (err) => { // 重写该文档（appendFile是追加并不存在就直接创建）
             if (err) throw err;
             console.log('写入成功' + filePath);
@@ -109,7 +52,12 @@ function updateFile(templatePath, dirPath, addData, YY, MM, titleName, fileName)
 }
 
 // "## 年月" 判断是否需要添加，不需要则返回原文和位置；需要添加后再返回原文和位置
-function isUpdateYYOrYYMM(findOrUpdateStr, content) {
+function isUpdateYYOrYYMM(startyymm, content, countMap) {
+    const YY = startyymm.substring(0, 4);
+    const MM = startyymm.substring(4);
+    const YY_MM = YY + "-" + MM;
+    content = content.replaceAll("&{YY}&", YY).replaceAll("&{MM}&", MM);
+    var findOrUpdateStr = "## " + YY_MM;
     var findPosition = content.indexOf(findOrUpdateStr);
     if (findPosition !== -1) { // 已经存在，返回这个位置和原文
         return {
@@ -121,13 +69,17 @@ function isUpdateYYOrYYMM(findOrUpdateStr, content) {
     const templateValue = "的模板 -->";
     var findTemplatePosition = content.indexOf(templateValue) + templateValue.length;
     content = updateOptPosition(findTemplatePosition, "\r\n" + findOrUpdateStr, content);
+    findTemplatePosition += "\r\n".length + findOrUpdateStr.length;
+    var ymTemplateStr = "\r\n" + "**当月文章数：" + countMap[startyymm] + "**";
+    content = updateOptPosition(findTemplatePosition, ymTemplateStr, content);
+    findTemplatePosition += ymTemplateStr.length;
     return {
-        optPosition: findTemplatePosition + "\r\n".length + findOrUpdateStr.length,
+        optPosition: findTemplatePosition,
         content,
     };
 }
 
-// 插入内容更新到指定位置
+// 插入内容更新到指定位置（optPosition 位置，addTxt 添加内容，content 原数据）
 function updateOptPosition(optPosition, addTxt, content) {
     content = content.substring(0, optPosition) + addTxt + content.substring(optPosition);
     return content;
@@ -149,7 +101,6 @@ async function downloadFile(downUrl, fileNamePath) {
     }).on("error", (err) => {
         console.log("Error: ", err.message, fileNamePath);
     });
-
 }
 
 // 复制本地的问题
@@ -172,13 +123,27 @@ const downloadLocalFile = (url, filePath) => {
 
 // downloadLocalFile(`public/base/cover.jpg`, `docs/.vuepress/public/`, `cover.jpg`);
 
+// 读取
+function getFileData(filePath, templatePath) {
+    var finalData = new String();
+    if (fs.existsSync(filePath)) {
+        // 文档存在，读取里面内容
+        finalData = fs.readFileSync(filePath, 'utf-8');
+    } else {
+        // 文档不存在，读取模板文件
+        finalData = fs.readFileSync(templatePath, 'utf-8');
+    }
+    return finalData;
+}
 
 module.exports = {
     mkdirs,
     mkdirsSync,
-    updateYYMM,
-    updateYY,
-    updateAll,
     downloadFile,
     downloadLocalFile,
+    getFileData,
+    updateFile,
+    updateArticleFile,
+    isUpdateYYOrYYMM,
+    updateOptPosition,
 }
