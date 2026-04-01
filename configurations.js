@@ -1,24 +1,24 @@
 export default {
   // blog 基础配置
   blog: {
-    title: "每日掘金",
-    description: "专注于发掘站内优质创作者和优质内容",
-    logo: "https://p3-passport.byteacctimg.com/img/user-avatar/b72e991ee9b1c9bdca7b2bd4c8dc78a8~300x300.image",
-    siteName: "tea.juejindev.com",
+    title: "掘金安东尼",
+    description: "传播技术  相信价值 🏄",
+    logo: "https://p3-passport.byteacctimg.com/img/user-avatar/94387f7613d4f2f9237de6863164b2ff~300x300.image",
+    siteName: "tuaran.me",
     head: [],
-    keywords: ["前端", "后端", "移动端", "每日掘金", "酱酱的下午茶", "掘金", "掘金酱"],
-    author: "TeaTools,MiyueFE",
+    keywords: ["前端", "掘金安东尼", "掘金", "JavaScript", "技术博客"],
+    author: "掘金安东尼",
   },
 
   // vite press 构建配置
   press: {
-    name: "每日掘金",
-    text: "了解社区最新动态，发现最优质文章、最优质的你。",
-    tagline: "专注于发掘站内优质创作者和优质内容",
-    image: "https://vitepress.dev/vitepress-logo-large.webp",
+    name: "掘金安东尼",
+    text: "传播技术，相信价值。",
+    tagline: "掘金安东尼的技术博客 · 655 篇文章 · 236 万阅读",
+    image: "https://p3-passport.byteacctimg.com/img/user-avatar/94387f7613d4f2f9237de6863164b2ff~300x300.image",
     actions: [
       { theme: "brand", text: "开始阅读", link: "/overview/index" },
-      { theme: "alt", text: "关注掘金", link: "https://juejin.cn/user/2819602825362840" },
+      { theme: "alt", text: "关注掘金", link: "https://juejin.cn/user/1521379823340792" },
     ],
     features: [
       { icon: "🎈", title: "博客平台小助手", details: "同步一流技术社区专属文章" },
@@ -42,69 +42,12 @@ export default {
     showTeam: true,
     members: [
       {
-        avatar: "https://miyuefe.cn/assets/images/logo.svg",
-        name: "MiyueFE",
-        title: "Creator",
+        avatar: "https://p3-passport.byteacctimg.com/img/user-avatar/94387f7613d4f2f9237de6863164b2ff~300x300.image",
+        name: "掘金安东尼",
+        title: "Author",
         links: {
-          github: "https://github.com/miyuesc",
-          home: "https://miyuefe.cn",
-          juejin: "https://juejin.cn/user/747323639208391",
-        },
-      },
-      {
-        avatar: "https://p6-passport.byteacctimg.com/img/user-avatar/db3b09f9ca107d8843cee3fe8f4f0cd4~120x120.awebp",
-        name: "南方者",
-        title: "Creator",
-        links: {
-          github: "https://github.com/NanFangZhe404",
-          home: "https://blog.nanfangzhe.cn/",
-          juejin: "https://juejin.cn/user/2840793779295133",
-        },
-      },
-      {
-        avatar: "https://p6-passport.byteacctimg.com/img/user-avatar/6cd5915df47110ea932c1a1910569532~120x120.awebp",
-        name: "Captaincc",
-        title: "Contributor",
-        links: {
-          github: "https://github.com/captainfod",
-          juejin: "https://juejin.cn/user/3052665287739005",
-        },
-      },
-      {
-        avatar: "https://p6-passport.byteacctimg.com/img/user-avatar/4206063bb939c2fa4042904efc95e10b~120x120.awebp",
-        name: "Ylimhs",
-        title: "Contributor",
-        links: {
-          github: "https://github.com/Ylimhs",
-          juejin: "https://juejin.cn/user/2999123452115005",
-        },
-      },
-      {
-        avatar: "https://p6-passport.byteacctimg.com/img/user-avatar/a2f2b8afcf3908c6f0707b216f1f4408~120x120.awebp",
-        name: "北洋",
-        title: "Contributor",
-        links: {
-          github: "https://github.com/wuyangting",
-          juejin: "https://juejin.cn/user/2163480089612877",
-        },
-      },
-      {
-        avatar: "https://p9-passport.byteacctimg.com/img/user-avatar/f3c0335559b4f202ddb10c41e4767c0a~120x120.awebp",
-        name: "战场小包",
-        title: "Contributor",
-        links: {
-          github: "https://github.com/zcxiaobao",
-          home: "https://zcxiaobao.github.io/front-end-engineering-handbook/",
-          juejin: "https://juejin.cn/user/4424090519078430",
-        },
-      },
-      {
-        avatar: "https://p9-passport.byteacctimg.com/img/user-avatar/51193d11e87c7530444651a8938d4568~120x120.awebp",
-        name: "ReganYue",
-        title: "Contributor",
-        links: {
-          github: "https://github.com/ReganYue",
-          juejin: "https://juejin.cn/user/3008695929418318",
+          home: "https://tuaran.me",
+          juejin: "https://juejin.cn/user/1521379823340792",
         },
       },
     ],
@@ -112,7 +55,7 @@ export default {
 
   // 掘金
   juejin: {
-    userId: "2819602825362840",
+    userId: "1521379823340792",
     columnsIds: [],
   },
 }
